@@ -3,6 +3,7 @@ package controller;
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.ConnectionFactory;
+import com.rabbitmq.client.MessageProperties;
 
 public class NewTask {
 
@@ -16,7 +17,7 @@ public class NewTask {
 
 		channel.queueDeclare(QUEUE_NAME, false, false, false, null);
 		String message = getMessage(args);
-		channel.basicPublish("", QUEUE_NAME, null, message.getBytes());
+		channel.basicPublish("", QUEUE_NAME, MessageProperties.PERSISTENT_TEXT_PLAIN, message.getBytes());
 
 		channel.close();
 		connection.close();
